@@ -25,7 +25,7 @@
                             {{ todo.text }}
                             <b>
                                 <a href="" @click.prevent="editShow(index)">Edit</a>
-                                <a href="">Del</a>
+                                <a href="" @click.prevent="deleteTodo(index)">Del</a>
                             </b>
                         </span>
                     </li>
@@ -76,6 +76,9 @@ export default {
             this.writeState = 'edit';
             this.editItemText = this.todos[index].text;
         },
+        deleteTodo(index) {
+            this.todos.splice(index, 1);
+        }
     },
     mounted() {
         this.$refs.writeArea.focus();
