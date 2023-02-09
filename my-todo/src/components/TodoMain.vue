@@ -34,7 +34,6 @@ export default {
     data() {
         return {
             todos: [
-                // css class yet: far, done: fas
                 { text: '공부하기', state: 'yet' },
                 { text: '운동하기', state: 'done' },
                 { text: '글쓰기', state: 'done' },
