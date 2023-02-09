@@ -6,7 +6,7 @@
         <main>
             <div class="todos">
                 <div class="write">
-                    <input type="text" v-model="addItemText" @keyup.enter="addItem"/>
+                    <input ref="writeArea" type="text" v-model="addItemText" @keyup.enter="addItem"/>
                     <button class="btn add" @click="addItem">Add</button>
                 </div>
                 <ul class="list">
@@ -49,7 +49,10 @@ export default {
             });
             this.addItemText = '';
         }
-    }
+    },
+    mounted() {
+        this.$refs.writeArea.focus();
+    },
 }
 </script>
 
