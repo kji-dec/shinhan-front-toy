@@ -10,10 +10,10 @@
                     <button class="btn add">Add</button>
                 </div>
                 <ul class="list">
-                    <li v-for="todo in todos" :key="todo.text">
+                    <li v-for="(todo, index) in todos" :key="todo.text">
                         <i 
-                        class="fa-check-square" 
-                        :class="{'far': (todo.state === 'yet'), 'fas': (todo.state === 'done')}"
+                        :class="[todo.state === 'yet' ? 'far' : 'fas', 'fa-check-square']"
+                        @click="checkTodo(index)"
                         ></i>
                         <span>
                             {{ todo.text }}
@@ -38,6 +38,10 @@ export default {
                 { text: '운동하기', state: 'done' },
                 { text: '글쓰기', state: 'done' },
             ],
+            state: {
+                yet: 'done',
+                done: 'yet',
+            },
         };
     },
 }
