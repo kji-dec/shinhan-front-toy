@@ -1,7 +1,9 @@
 <template>
     <div class="page">
         <header>
-            <h1>Todo List</h1>
+            <h1>
+                Todo List
+            </h1>
         </header>
         <main>
             <div class="todos">
@@ -18,7 +20,7 @@
                     </div>
                 </transition>
                 <ul class="list" ref="list">
-                    <li v-for="(todo, index) in todos" :key="todo.text">
+                    <li v-for="(todo, index) in todos" :key="todo.id">
                         <i :class="[todo.state === 'yet' ? 'far' : 'fas', 'fa-check-square']"
                             @click="checkItem(index)"></i>
                         <span>
@@ -36,6 +38,8 @@
 </template>
 
 <script>
+import { db } from '../firebase/db'
+
 export default {
     data() {
         return {
@@ -43,11 +47,7 @@ export default {
             editItemText: '',
             crrEditItem: '',
             writeState: 'add',
-            todos: [
-                { text: '공부하기', state: 'yet' },
-                { text: '운동하기', state: 'done' },
-                { text: '글쓰기', state: 'done' },
-            ],
+            todos: [],
             state: {
                 yet: 'done',
                 done: 'yet',
@@ -57,18 +57,37 @@ export default {
     methods: {
         addItem() {
             if (this.addItemText.trim() === '') return;
-            this.todos.push({
+            db.collection('todos').add({
                 text: this.addItemText,
                 state: 'yet',
+                createdAt: new Date(),
+            }).then((sn) => {
+                db.collection('todos').doc(sn.id).update({
+                    id: sn.id,
+                });
             });
+            // this.todos.push({
+            //     text: this.addItemText,
+            //     state: 'yet',
+            // });
             this.addItemText = '';
         },
         checkItem(index) {
             const crrState = this.todos[index].state;
-            this.todos[index].state = this.state[crrState];
+            // this.todos[index].state = this.state[crrState];
+            db.collection('todos')
+                .doc(this.todos[index].id)
+                .update({
+                    state: this.state[crrState]
+                })
         },
         editSave() {
-            this.todos[this.crrEditItem].text = this.editItemText;
+            // this.todos[this.crrEditItem].text = this.editItemText;
+            db.collection('todos')
+                .doc(this.todos[this.crrEditItem].id)
+                .update({
+                    text: this.editItemText
+                });
             this.writeState = 'add';
             this.$refs.list.children[this.crrEditItem].classList.remove('editing');
         },
@@ -80,11 +99,17 @@ export default {
             this.$refs.list.children[index].classList.add('editing');
         },
         deleteTodo(index) {
-            this.todos.splice(index, 1);
-        }
+            // this.todos.splice(index, 1);
+            db.collection('todos').doc(this.todos[index].id).delete();
+        },
     },
     mounted() {
         this.$refs.writeArea.focus();
+    },
+    firestore() {
+        return {
+            todos: db.collection('todos').orderBy('createdAt', 'desc'),
+        }
     },
 }
 </script>
