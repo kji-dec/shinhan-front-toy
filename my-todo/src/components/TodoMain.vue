@@ -13,6 +13,7 @@
                     <li v-for="(todo, index) in todos" :key="todo.text">
                         <i 
                         :class="[todo.state === 'yet' ? 'far' : 'fas', 'fa-check-square']"
+                        @click="checkItem(index)"
                         ></i>
                         <span>
                             {{ todo.text }}
@@ -38,6 +39,10 @@ export default {
                 { text: '운동하기', state: 'done' },
                 { text: '글쓰기', state: 'done' },
             ],
+            state: {
+                yet: 'done',
+                done: 'yet',
+            },
         };
     },
     methods: {
@@ -48,7 +53,11 @@ export default {
                 state: 'yet',
             });
             this.addItemText = '';
-        }
+        },
+        checkItem(index) {
+            const crrState = this.todos[index].state;
+            this.todos[index].state = this.state[crrState];
+        },
     },
     mounted() {
         this.$refs.writeArea.focus();
