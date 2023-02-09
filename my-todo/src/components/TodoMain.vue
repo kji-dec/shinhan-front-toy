@@ -5,9 +5,15 @@
         </header>
         <main>
             <div class="todos">
-                <div class="write">
+                <!-- add -->
+                <div class="write" v-if="writeState === 'add'">
                     <input ref="writeArea" type="text" v-model="addItemText" @keyup.enter="addItem"/>
                     <button class="btn add" @click="addItem">Add</button>
+                </div>
+                <!-- edit -->
+                <div class="write" v-else>
+                    <input ref="writeArea" type="text" v-model="editItemText" @keyup.enter="editSave"/>
+                    <button class="btn add" @click="editSave">Save</button>
                 </div>
                 <ul class="list">
                     <li v-for="(todo, index) in todos" :key="todo.text">
@@ -18,7 +24,7 @@
                         <span>
                             {{ todo.text }}
                             <b>
-                                <a href="">Edit</a>
+                                <a href="" @click.prevent="editShow(index)">Edit</a>
                                 <a href="">Del</a>
                             </b>
                         </span>
@@ -34,6 +40,9 @@ export default {
     data() {
         return {
             addItemText: '',
+            editItemText: '',
+            crrEditItem: '',
+            writeState: 'add',
             todos: [
                 { text: '공부하기', state: 'yet' },
                 { text: '운동하기', state: 'done' },
@@ -57,6 +66,15 @@ export default {
         checkItem(index) {
             const crrState = this.todos[index].state;
             this.todos[index].state = this.state[crrState];
+        },
+        editSave() {
+            this.todos[this.crrEditItem].text = this.editItemText;
+            this.writeState = 'add';
+        },
+        editShow(index) {
+            this.crrEditItem = index;
+            this.writeState = 'edit';
+            this.editItemText = this.todos[index].text;
         },
     },
     mounted() {
