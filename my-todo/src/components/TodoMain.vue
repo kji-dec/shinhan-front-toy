@@ -3,6 +3,17 @@
         <header>
             <h1>
                 Todo List
+                <span class="pie">
+                    <svg viewBox="0 0 64 64">
+                        <circle class="pie" r="32" cx="32" cy="32" style="stroke-width: 64;"></circle>
+                        <circle class="slice" r="32" cx="32" cy="32"
+                            :style="{
+                                strokeWidth: 64, 
+                                strokeDasharray: totalTodo + ', 201',
+                                transition: 'all 0.3s linear',
+                            }"></circle>
+                    </svg>
+                </span>
             </h1>
         </header>
         <main>
@@ -53,6 +64,13 @@ export default {
                 done: 'yet',
             },
         };
+    },
+    computed: {
+        totalTodo() {
+            let totalNum = 0;
+            this.todos.forEach((item) => item.state === 'done' ? totalNum ++ : totalNum);
+            return (totalNum / this.todos.length) * 201;
+        },
     },
     methods: {
         addItem() {

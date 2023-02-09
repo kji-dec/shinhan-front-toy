@@ -155,7 +155,9 @@ h1 {
   text-decoration: underline;
 }
 
-.todos ul > li.editing span {color:#abe0c2}
+.todos ul>li.editing span {
+  color: #abe0c2
+}
 
 /* animation */
 .fade-enter-active,
@@ -169,5 +171,28 @@ h1 {
 /* .fade-leave-active below version 2.1.8 */
   {
   opacity: 0;
+}
+
+/* pie */
+.pie svg {
+  overflow: hidden;
+  border-radius: 50%;
+  transform: rotate(-90deg);
+  vertical-align: -3px;
+}
+
+.pie {
+  width: 30px;
+  display: inline-block;
+}
+
+.pie circle.pie {
+  fill: #fff0;
+  stroke: #96d2b1;
+}
+
+.pie circle.slice {
+  fill: #fff0;
+  stroke: #2da562;
 }
 </style>
