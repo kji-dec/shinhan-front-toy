@@ -91,7 +91,8 @@ h1 {
 
 .todos {
   font-size: 1.2rem;
-  margin: 20px 0 0
+  margin: 20px 0 0;
+  position: relative;
 }
 
 .todos .write {
@@ -99,7 +100,8 @@ h1 {
   background-color: #f3f2eb;
   padding: 10px 15px;
   border-radius: 30px;
-  margin-left: -20px
+  margin-left: -20px;
+  position: absolute;
 }
 
 .todos .write>input {
@@ -110,9 +112,17 @@ h1 {
   vertical-align: middle;
 }
 
+.todos .write.edit {
+  border: 3px solid #2CA661;
+}
+
 .todos .write>button {
   margin-right: -2px;
   vertical-align: middle;
+}
+
+.todos ul {
+  padding-top: 70px;
 }
 
 .todos ul>li {
@@ -143,5 +153,21 @@ h1 {
   margin: 0 4px;
   color: #877457;
   text-decoration: underline;
+}
+
+.todos ul > li.editing span {color:#abe0c2}
+
+/* animation */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+  {
+  opacity: 0;
 }
 </style>

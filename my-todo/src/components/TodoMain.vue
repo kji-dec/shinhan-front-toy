@@ -5,22 +5,22 @@
         </header>
         <main>
             <div class="todos">
-                <!-- add -->
-                <div class="write" v-if="writeState === 'add'">
-                    <input ref="writeArea" type="text" v-model="addItemText" @keyup.enter="addItem"/>
-                    <button class="btn add" @click="addItem">Add</button>
-                </div>
-                <!-- edit -->
-                <div class="write" v-else>
-                    <input ref="writeArea" type="text" v-model="editItemText" @keyup.enter="editSave"/>
-                    <button class="btn add" @click="editSave">Save</button>
-                </div>
-                <ul class="list">
+                <transition name="fade">
+                    <!-- add -->
+                    <div class="write add" v-if="writeState === 'add'" key="add">
+                        <input ref="writeArea" type="text" v-model="addItemText" @keyup.enter="addItem" />
+                        <button class="btn add" @click="addItem">Add</button>
+                    </div>
+                    <!-- edit -->
+                    <div class="write edit" v-else key="edit">
+                        <input ref="writeArea" type="text" v-model="editItemText" @keyup.enter="editSave" />
+                        <button class="btn add" @click="editSave">Save</button>
+                    </div>
+                </transition>
+                <ul class="list" ref="list">
                     <li v-for="(todo, index) in todos" :key="todo.text">
-                        <i 
-                        :class="[todo.state === 'yet' ? 'far' : 'fas', 'fa-check-square']"
-                        @click="checkItem(index)"
-                        ></i>
+                        <i :class="[todo.state === 'yet' ? 'far' : 'fas', 'fa-check-square']"
+                            @click="checkItem(index)"></i>
                         <span>
                             {{ todo.text }}
                             <b>
@@ -70,11 +70,14 @@ export default {
         editSave() {
             this.todos[this.crrEditItem].text = this.editItemText;
             this.writeState = 'add';
+            this.$refs.list.children[this.crrEditItem].classList.remove('editing');
         },
         editShow(index) {
             this.crrEditItem = index;
             this.writeState = 'edit';
             this.editItemText = this.todos[index].text;
+            console.log(this.$refs.list.children[index]);
+            this.$refs.list.children[index].classList.add('editing');
         },
         deleteTodo(index) {
             this.todos.splice(index, 1);
