@@ -4,7 +4,7 @@
             <b>{{ item.time_ago }}</b>
             <template v-if="$route.name === 'news'">
                 <span> by <router-link :to="`/user/${item.user}`">{{ item.user }}</router-link></span><br>
-                <a :href="item.url">{{ item.title }}<i>({{ item.comments_count }})</i></a>
+                <a :href="item.url">{{ item.title }}<router-link :to="`item?id=${item.id}`"><i>({{ item.comments_count }})</i></router-link></a>
             </template>
             <template v-else-if="$route.name === 'ask'">
                 <span> by <router-link :to="`/user/${item.user}`">{{ item.user }}</router-link></span><br>

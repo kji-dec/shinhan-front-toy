@@ -2,13 +2,13 @@
     <div>
         <div class="user_profile">
             <span>by</span>
-            <strong><router-link :to="`/user/${askItem.user}`">{{ askItem.user }}</router-link></strong>
-            <b>- {{ askItem.time_ago }}</b>
+            <strong><router-link :to="`/user/${detailItem.user}`">{{ detailItem.user }}</router-link></strong>
+            <b>- {{ detailItem.time_ago }}</b>
         </div>
-        <h2>{{ askItem.title }}</h2>
-        <div v-html="askItem.content"></div>
+        <h2>{{ detailItem.title }}</h2>
+        <div v-html="detailItem.content"></div>
         <ul class="comments">
-            <li v-for="item in askItem.comments" :key="item.id">
+            <li v-for="item in detailItem.comments" :key="item.id">
                 <i class="fas fa-arrow-right"></i>
                 <div v-html="item.content"></div>
             </li>
@@ -19,7 +19,7 @@
 <script>
 export default {
     computed: {
-        askItem() {
+        detailItem() {
             return this.$store.state.item;
         },
     },

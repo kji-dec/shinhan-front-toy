@@ -1,6 +1,6 @@
 <template>
   <div>
-    home
+    Jiin Kim
   </div>
 </template>
 
