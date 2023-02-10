@@ -1,10 +1,11 @@
 import { createStore } from 'vuex'
-import { fetchListItem, fetchUserInfo } from '@/api'
+import { fetchListItem, fetchUserInfo, fetchAskItem } from '@/api'
 
 export default createStore({
   state: {
     list: [],
     user: '',
+    item: '',
   },
   getters: {
   },
@@ -14,6 +15,9 @@ export default createStore({
     },
     SET_USER(state, user){
       state.user = user;
+    },
+    SET_ITEM(state, id) {
+      state.item = id;
     },
   },
   actions: { // axios 요청을 하게 함
@@ -28,6 +32,14 @@ export default createStore({
     FETCH_USER(context, userName) {
       return fetchUserInfo(userName).then((res) => {
         context.commit('SET_USER', res.data);
+        return res;
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    FETCH_ITEM(context, id) {
+      return fetchAskItem(id).then((res) => {
+        context.commit('SET_ITEM', res.data);
         return res;
       }).catch((err) => {
         console.log(err);
